@@ -101,7 +101,7 @@ namespace NBrightPayBox.DNN.NBrightStore
             var rtnStr = "";
             rtnStr = rPost.GetPostHtml("/DesktopModules/NBright/NBrightPayBox/Themes/config/img/" + settings.GetXmlProperty("genxml/dropdownlist"));
 
-            if (StoreSettings.Current.DebugMode)
+            if (settings.GetXmlPropertyBool("genxml/checkbox/debugmode"))
             {
                 File.WriteAllText(PortalSettings.Current.HomeDirectoryMapPath + "\\debug_NBrightPayBoxpost.html", rtnStr);
             }
