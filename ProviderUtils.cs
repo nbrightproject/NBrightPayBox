@@ -90,7 +90,7 @@ namespace NBrightPayBox.DNN.NBrightStore
             rPost.Add("PBX_EFFECTUE", pbxeffectue);
             rPost.Add("PBX_REFUSE", pbxrefuse);
             rPost.Add("PBX_ANNULE", pbxrefuse);
-            rPost.Add("PBX_REPONDRE_A", Utils.ToAbsoluteUrl("/DesktopModules/NBright/NBrightPayPal/notify.ashx"));
+            rPost.Add("PBX_REPONDRE_A", Utils.ToAbsoluteUrl("/DesktopModules/NBright/NBrightPayBox/notify.ashx"));
             rPost.Add("PBX_HASH", "SHA512");
             rPost.Add("PBX_TIME", DateTime.UtcNow.ToString("o"));
 

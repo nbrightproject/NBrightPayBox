@@ -29,18 +29,7 @@ namespace NBrightPayBox.DNN.NBrightStore
             try
             {
                 var debugMode = info.GetXmlPropertyBool("genxml/checkbox/debugmode");
-
                 var debugMsg = "START CALL" + DateTime.Now.ToString("s") + " </br>";
-                debugMsg += "returnmessage: " + context.Request.Form.Get("returnmessage") + "</br>";
-                if (debugMode)
-                {
-                    info.SetXmlProperty("genxml/debugmsg", debugMsg);
-                    modCtrl.Update(info);
-                }
-
-                debugMsg = "NBrightPayBox DEBUG: " + DateTime.Now.ToString("s") + " </br>";
-
-
                 var rtnMsg = "version=2" + Environment.NewLine + "cdr=1";
 
                 // ------------------------------------------------------------------------
@@ -51,60 +40,46 @@ namespace NBrightPayBox.DNN.NBrightStore
                 string NBrightPayBoxCartID = "";
                 string NBrightPayBoxClientLang = "";
 
-                if ((context.Request.Form.Get("returnmessage") != null))
+                var orderid = Utils.RequestQueryStringParam(context, "ref");
+                debugMsg += "orderid: " + orderid + "</br>";
+
+                if (Utils.IsNumeric(orderid))
                 {
-                    returnmessage = context.Request.Form.Get("returnmessage");
+                    var authcode = Utils.RequestQueryStringParam(context, "auto");
+                    var errcode = Utils.RequestQueryStringParam(context, "rtnerr");
 
-                    var orderid = Utils.RequestQueryStringParam(context, "ref");
+                    NBrightPayBoxStoreOrderID = Convert.ToInt32(orderid);
+                    // ------------------------------------------------------------------------
 
-                    if (Utils.IsNumeric(orderid))
+                    debugMsg += "OrderId: " + orderid + " </br>";
+                    debugMsg += "errcode: " + errcode + " </br>";
+                    debugMsg += "authcode: " + authcode + " </br>";
+
+                    var orderData = new OrderData(NBrightPayBoxStoreOrderID);
+
+
+                    if (authcode == "")
+                        rtnMsg = "KO";
+                    else
+                        rtnMsg = "OK";
+
+                    if (authcode == "")
                     {
-                        var authcode = Utils.RequestQueryStringParam(context, "auto");
-                        var errcode = Utils.RequestQueryStringParam(context, "rtnerr");
-
-                        NBrightPayBoxStoreOrderID = Convert.ToInt32(orderid);
-                        // ------------------------------------------------------------------------
-
-                        debugMsg += "OrderId: " + orderid + " </br>";
-                        if (debugMode)
+                        orderData.PaymentFail();
+                    }
+                    else
+                    {
+                        if (errcode == "00000")
                         {
-                            info.SetXmlProperty("genxml/debugmsg", debugMsg);
-                            modCtrl.Update(info);
+                            orderData.PaymentOk();
                         }
-
-                        var orderData = new OrderData(NBrightPayBoxStoreOrderID);
-
-
-                        if (authcode == "")
-                            rtnMsg = "KO";
+                        else if (errcode == "99999")
+                        {
+                            orderData.PaymentOk("050");
+                        }
                         else
-                            rtnMsg = "OK";
-
-                        debugMsg += "authcode: " + authcode + " </br>";
-                        if (debugMode)
-                        {
-                            info.SetXmlProperty("genxml/debugmsg", debugMsg);
-                            modCtrl.Update(info);
-                        }
-
-                        if (authcode == "")
                         {
                             orderData.PaymentFail();
-                        }
-                        else
-                        {
-                            if (errcode == "00000")
-                            {
-                                orderData.PaymentOk();
-                            }
-                            else if (errcode == "99999")
-                            {
-                                orderData.PaymentOk("050");
-                            }
-                            else
-                            {
-                                orderData.PaymentFail();
-                            }
                         }
                     }
                 }
@@ -126,7 +101,7 @@ namespace NBrightPayBox.DNN.NBrightStore
             }
             catch (Exception ex)
             {
-                if (!ex.ToString().StartsWith("System.Threading.ThreadAbortException"))  // we expect a thread abort from the End response.
+                if (!ex.ToString().StartsWith("System.Threading.ThreadAbortException")) // we expect a thread abort from the End response.
                 {
                     info.SetXmlProperty("genxml/debugmsg", "NBrightPayBox ERROR: " + ex.ToString());
                     modCtrl.Update(info);
