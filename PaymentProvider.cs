@@ -66,14 +66,15 @@ namespace NBrightPayBox.DNN.NBrightStore
                 var status = Utils.RequestQueryStringParam(context, "status");
                 if (status == "0")
                 {
+                    var rtnerr = ".";
                     var orderData = new OrderData(Convert.ToInt32(orderid));
                     if (orderData.OrderStatus == "020") // check we have a waiting for bank status, IPN may have already altered this. 
                     {
-                        var rtnerr = orderData.PurchaseInfo.GetXmlProperty("genxml/paymenterror");
+                        rtnerr = orderData.PurchaseInfo.GetXmlProperty("genxml/paymenterror");
                         if (rtnerr == "") rtnerr = "."; // to return this so a fail is activated.
                         orderData.PaymentFail();
-                        return rtnerr;
                     }
+                    return rtnerr;
                 }
             }
             return "";
