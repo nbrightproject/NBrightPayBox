@@ -28,8 +28,31 @@
             <div class="box-content">
                 <div class="form-horizontal dnnForm">
 
+
+   					<div class="form-group">
+						<label class="col-sm-2 control-label">[<tag type="valueof" resourcekey="pbxPayment.Title" />]</label>[<tag type="editflag" />]
+						<div class="col-sm-5">
+							[<tag id="manualpaymenttitle" cssclass="form-control" type="textbox" resourcekeysave="pbxPayment.Titlevalue" maxlength="150" Text="" lang="{Settings:editlanguage}"  />]
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">[<tag type="valueof" resourcekey="pbxPayment.Message" />]</label>[<tag type="editflag" />]
+						<div class="col-sm-5">
+							[<tag id="manualpaymentmessage" cssclass="form-control" type="textbox" height="100" maxlength="200" textmode="MultiLine" resourcekeysave="pbxPayment.Messagevalue" lang="{Settings:editlanguage}" />]
+						</div>
+					</div>				
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">[<tag type="valueof" resourcekey="pbxPayment.buttontext" />]</label>[<tag type="editflag" />]
+						<div class="col-sm-5">
+							[<tag id="buttontext" cssclass="form-control" type="textbox" resourcekeysave="pbxPayment.buttonvalue" maxlength="150" Text="" lang="{Settings:editlanguage}"  />]
+						</div>
+					</div>
+
+
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">[<tag type="valueof" resourcekey="Payment.checkouttemplate" />]</label>
+                        <label class="col-sm-2 control-label">[<tag type="valueof" resourcekey="pbxPayment.checkouttemplate" />]</label>
                         <div class="col-sm-2">
                             [<tag id="checkouttemplate" cssclass="form-control" type="textbox" Text="methodselection.html"/>]
                         </div>

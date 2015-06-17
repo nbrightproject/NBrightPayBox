@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
 	<packages>
-		<package name="NBrightBuyPayBox" type="Module" version="1.0.0">
+		<package name="NBrightBuyPayBox" type="Module" version="1.0.3">
 			<friendlyName>NBrightBuyPayBox</friendlyName>
 			<description>NBrightBuyPayBox: PayBox Payment provider for NBrightStore</description>
 			<iconFile />

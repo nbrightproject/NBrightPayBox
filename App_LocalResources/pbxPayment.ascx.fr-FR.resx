@@ -118,15 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="checkouttemplate.Text" xml:space="preserve">
-    <value>CheckOut Template</value>
+    <value>Modèle de caisse</value>
   </data>
-  <data name="NBrightPayBoxpayment.Text" xml:space="preserve">
-    <value>Pay Now</value>
+  <data name="buttontext.Text" xml:space="preserve">
+    <value>Texte du bouton</value>
   </data>
-  <data name="message.Text" xml:space="preserve">
-    <value>Pay by using PayBox Secure Banking Payment Gateway</value>
+  <data name="buttonvalue.Text" xml:space="preserve">
+    <value>Payer maintenant</value>
   </data>
-  <data name="imagelogo.Text" xml:space="preserve">
-    <value>Image logo</value>
+  <data name="Message.Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Messagevalue.Text" xml:space="preserve">
+    <value>Vous serez redirigé pour le système de paiement sécurisé des banques pour effectuer votre paiement.</value>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>Titre</value>
+  </data>
+  <data name="Titlevalue.Text" xml:space="preserve">
+    <value>Paiement bancaire sécurisé</value>
   </data>
 </root>
