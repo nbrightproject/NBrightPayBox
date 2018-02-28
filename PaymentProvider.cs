@@ -18,8 +18,25 @@ namespace NBrightPayBox.DNN.NBrightStore
 
         public override string GetTemplate(NBrightInfo cartInfo)
         {
-            var info = ProviderUtils.GetProviderSettings("NBrightPayBoxpayment");
-            var templ = ProviderUtils.GetTemplateData(info.GetXmlProperty("genxml/textbox/checkouttemplate"),info);
+            var templ = "";
+            var info = ProviderUtils.GetData(cartInfo.Lang);
+            var templateName = info.GetXmlProperty("genxml/textbox/checkouttemplate");
+            if (templateName.EndsWith(".html"))
+            {
+                templ = ProviderUtils.GetTemplateData(templateName, info);
+            }
+            else
+            {
+                var passSettings = info.ToDictionary();
+                foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
+                {
+                    if (passSettings.ContainsKey(s.Key))
+                        passSettings[s.Key] = s.Value;
+                    else
+                        passSettings.Add(s.Key, s.Value);
+                }
+                templ = NBrightBuyUtils.RazorTemplRender(templateName, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
+            }
 
             return templ;
         }

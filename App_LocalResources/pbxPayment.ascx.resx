@@ -141,4 +141,7 @@
   <data name="Titlevalue.Text" xml:space="preserve">
     <value>Payment by Secure Banking</value>
   </data>
+  <data name="savemsg.Text" xml:space="preserve">
+    <value>&lt;div class="alert alert-success"&gt;OK&lt;/div&gt;</value>
+  </data>
 </root>

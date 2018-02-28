@@ -11,6 +11,7 @@ using DotNetNuke.Entities.Portals;
 using NBrightCore.common;
 using NBrightDNN;
 using Nevoweb.DNN.NBrightBuy.Components;
+using DotNetNuke.Common.Utilities;
 
 namespace NBrightPayBox.DNN.NBrightStore
 {
@@ -40,35 +41,11 @@ namespace NBrightPayBox.DNN.NBrightStore
             return templ;
         }
 
-        public static NBrightInfo GetProviderSettings(String ctrlkey)
-        {
-            var info = (NBrightInfo)Utils.GetCache("NBrightPayBoxPaymentProvider" + PortalSettings.Current.PortalId.ToString(""));
-            if (info == null)
-            {
-                var modCtrl = new NBrightBuyController();
-
-                info = modCtrl.GetByGuidKey(PortalSettings.Current.PortalId, -1, "NBrightPayBoxPAYMENT", ctrlkey);
-
-                if (info == null)
-                {
-                    info = new NBrightInfo(true);
-                    info.GUIDKey = ctrlkey;
-                    info.TypeCode = "NBrightPayBoxPAYMENT";
-                    info.ModuleId = -1;
-                    info.PortalId = PortalSettings.Current.PortalId;
-                }
-
-                Utils.SetCache("NBrightPayBoxPaymentProvider" + PortalSettings.Current.PortalId.ToString(""), info);
-            }
-
-            return info;
-        }
-
         public static String GetBankRemotePost(OrderData orderData)
         {
             var rPost = new RemotePost();
 
-            var settings = ProviderUtils.GetProviderSettings("NBrightPayBoxpayment");
+            var settings = ProviderUtils.GetData(orderData.Lang);
 
                         var param = new string[3];
             param[0] = "orderid=" + orderData.PurchaseInfo.ItemID.ToString("");
@@ -118,6 +95,60 @@ namespace NBrightPayBox.DNN.NBrightStore
                 File.WriteAllText(PortalSettings.Current.HomeDirectoryMapPath + "\\debug_NBrightPayBoxpost.html", rtnStr);
             }
             return rtnStr;
+        }
+
+        public static NBrightInfo GetData(string lang)
+        {
+            var objCtrl = new NBrightBuyController();
+            var info = objCtrl.GetByGuidKey(PortalSettings.Current.PortalId, -1, "NBrightPayBoxPAYMENT", "NBrightPayBoxpayment");
+            if (info == null)
+            {
+                info = new NBrightInfo(true);
+                info.GUIDKey = "NBrightPayBoxpayment";
+                info.TypeCode = "NBrightPayBoxPAYMENT";
+                info.ModuleId = -1;
+                info.PortalId = PortalSettings.Current.PortalId;
+                var pid = objCtrl.Update(info);
+                info = new NBrightInfo(true);
+                info.GUIDKey = "";
+                info.TypeCode = "NBrightPayBoxPAYMENTLANG";
+                info.ParentItemId = pid;
+                info.Lang = lang;
+                info.ItemID = objCtrl.Update(info);
+            }
+
+            // do edit field data if a itemid has been selected
+            var nbi = objCtrl.Get(info.ItemID, "NBrightPayBoxPAYMENTLANG", lang);
+            return nbi;
+        }
+
+        public static string SaveData(HttpContext context)
+        {
+            var objCtrl = new NBrightBuyController();
+
+            //get uploaded params
+            var ajaxInfo = NBrightBuyUtils.GetAjaxFields(context);
+            var lang = NBrightBuyUtils.SetContextLangauge(ajaxInfo); // Ajax breaks context with DNN, so reset the context language to match the client.
+
+            var itemid = ajaxInfo.GetXmlProperty("genxml/hidden/itemid");
+            if (Utils.IsNumeric(itemid))
+            {
+                var nbi = objCtrl.Get(Convert.ToInt32(itemid));
+                // get data passed back by ajax
+                var strIn = HttpUtility.UrlDecode(Utils.RequestParam(context, "inputxml"));
+                // update record with ajax data
+                nbi.UpdateAjax(strIn);
+                nbi.GUIDKey = nbi.GetXmlProperty("genxml/textbox/code");
+                objCtrl.Update(nbi);
+
+                // do langauge record
+                var nbi2 = objCtrl.GetDataLang(Convert.ToInt32(itemid), lang);
+                nbi2.UpdateAjax(strIn);
+                objCtrl.Update(nbi2);
+
+                DataCache.ClearCache(); // clear ALL cache.
+            }
+            return DnnUtils.GetResourceString("", "savemsg");
         }
 
 

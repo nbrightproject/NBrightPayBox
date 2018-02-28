@@ -7,20 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NBrightPayBox.DNN.NBrightStore
-{
-
-
-    public partial class NBrightPayBoxPayment
-    {
-
+namespace NBrightPayBox.DNN.NBrightStore {
+    
+    
+    public partial class NBrightPayBoxPayment {
+        
         /// <summary>
-        /// rpDataH control.
+        /// phData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpDataH;
+        protected global::System.Web.UI.WebControls.PlaceHolder phData;
     }
 }

@@ -46,6 +46,10 @@
     <Reference Include="NBrightDNN">
       <HintPath>..\..\..\bin\NBrightDNN.dll</HintPath>
     </Reference>
+    <Reference Include="RazorEngine, Version=3.7.7.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -56,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AjaxProvider.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="Payment.ascx.cs">
       <DependentUpon>Payment.ascx</DependentUpon>
@@ -79,9 +84,12 @@
     <Content Include="pluginPayBox.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Themes\config\default\methodselection.html" />
-    <Content Include="Themes\config\default\settings.html" />
-    <Content Include="Themes\config\img\cic.jpg" />
+    <Content Include="pluginPayBoxAjax.xml" />
+    <Content Include="Themes\config\img\CA.jpg" />
+    <Content Include="Themes\config\img\logo_paybox.jpg" />
+    <Content Include="Themes\config\js\paybox.js" />
+    <None Include="Themes\config\default\methodselection.cshtml" />
+    <None Include="Themes\config\default\settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_LocalResources\pbxPayment.ascx.fr-FR.resx" />

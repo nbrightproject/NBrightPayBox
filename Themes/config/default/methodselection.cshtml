@@ -1,0 +1,66 @@
+@inherits NBrightBuy.render.NBrightBuyRazorTokens<NBrightDNN.NBrightRazor>
+@using DotNetNuke.Common
+@using DotNetNuke.Entities.Portals
+@using DotNetNuke.Entities.Users
+@using NBrightDNN
+@using Nevoweb.DNN.NBrightBuy.Components
+
+@AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightPayBox/App_LocalResources")
+
+<script type="text/javascript" src="/DesktopModules/NBright/NBrightPayBox/Themes/config/default/paybox.js"></script>
+
+<style>
+    /* Default buttons */
+    .paybutton {
+        background: #1AA8E3;
+        color: #FFFFFF;
+    }
+
+        .paybutton:hover {
+            background: #23BAF5;
+            color: #FFFFFF;
+        }
+
+    .paybutton {
+        display: inline-block;
+        font-weight: bold;
+        line-height: 35px;
+        padding: 0 10px;
+        margin: 10px 10px 10px 0;
+        text-align: center;
+        width: 45%;
+        border: medium none;
+        text-decoration: none;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+
+        .paybutton:hover {
+            text-decoration: none;
+        }
+</style>
+
+        <div id="nbs_payboxparam">
+
+            <input id="paymentproviderkey" type="hidden" value="nbrightpaybox" />
+
+            <h3>@ResourceKey("pbxPayment.Titlevalue")</h3>
+
+            <div>
+                <img src='/DesktopModules/NBright/NBrightPayBox/Themes/config/img/@(Model.GetSetting("imagelogo"))'/>
+            </div>
+
+            <div class="defaultmessage">@ResourceKey("pbxPayment.Messagevalue")</div>
+
+            <div class="clearfix"></div>
+
+            <!-- commandname must be "pay" and the commandargument must be the provider control key -->
+            <div id="cartactions" style="">
+                <div style="clear: both;">
+                    <a href="?provider=nbrightpaybox" id="cmdpaybox" class="primarybutton">@ResourceKey("pbxPayment.buttonvalue")</a>
+                </div>
+            </div>
+
+        </div>
+
+        <hr />

@@ -18,13 +18,13 @@ namespace NBrightPayBox.DNN.NBrightStore
 
         /// <summary>
         /// This function needs to process and returned message from the bank.
-        /// Thsi processing may vary widely between banks.
+        /// This processing may vary widely between banks.
         /// </summary>
         /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
         {
             var modCtrl = new NBrightBuyController();
-            var info = ProviderUtils.GetProviderSettings("NBrightPayBoxpayment");
+            var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
 
             try
             {
