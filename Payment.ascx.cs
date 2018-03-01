@@ -42,7 +42,7 @@ namespace NBrightPayBox.DNN.NBrightStore
 
         private void PageLoad()
         {
-            if ( UserId > 0) // only logged in users can see data on this module.
+            if (NBrightBuyUtils.CheckRights())
             {
                 var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
                 var strOut = NBrightBuyUtils.RazorTemplRender("settings.cshtml", 0, "", info, ControlPath, "config", Utils.GetCurrentCulture(), StoreSettings.Current.Settings());
