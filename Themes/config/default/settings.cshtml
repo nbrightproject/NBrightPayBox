@@ -13,6 +13,8 @@
 var info = (NBrightInfo)Model.List.First();
 }
 
+<script type="text/javascript" src="/DesktopModules/NBright/NBrightPayBox/Themes/config/js/paybox.js"></script>
+
 <br />
 
     <div id="pageactionssource">
@@ -22,7 +24,7 @@ var info = (NBrightInfo)Model.List.First();
                 <i class="fa fa-bars"></i>
             </a>
             <div class="actionbuttonwrapper">
-                <a id="cmdSave" class="btn btn-primary" href="">@ResourceKey("General.cmdSaveButton")</a>
+                <a id="paybox_cmdSave" class="btn btn-primary" href="javascript:void(0);">@ResourceKey("General.cmdSaveButton")</a>
             </div>
         </div>
         <div class="col-xs-3 col-sm-3 top-panel-right">
@@ -34,8 +36,14 @@ var info = (NBrightInfo)Model.List.First();
 
 <div class="row">
 
+    <div class="alert alert-success paybox-success" style="display: none;"><strong>@ResourceKey("pbxPayment.savemsg")</strong></div>
+    <div class="alert alert-danger paybox-danger" style="display: none;"><strong>@ResourceKey("pbxPayment.failmsg")</strong></div>
+    <div class="payboxreturnmsg">
+    </div>
+
+
     <div class="col-xs-12 col-sm-12">
-        <div class="box">
+        <div class="box">            
             <div class="box-header">
                 <div class="box-name">
                     <i class="fa fa-search"></i><span>NBrightPayBox Payment</span>
@@ -44,6 +52,8 @@ var info = (NBrightInfo)Model.List.First();
             <div class="box-content payboxdata">
                 <div class="form-horizontal dnnForm">
 
+                    <input id="itemid" type="hidden" value="@info.ItemID"/>
+                    <input id="uilang" type="hidden" value="@info.Lang"/>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@ResourceKey("pbxPayment.Title")</label>
@@ -77,7 +87,7 @@ var info = (NBrightInfo)Model.List.First();
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Image Logo</label>
                         <div class="col-sm-2">
-                            @DropDownList(info, "genxml/dropdownlist/imagelogo", "logo_paybox.jpg;CA.jpg", "logo_paybox.jpg;CA.jpg", "class='form-control'")
+                            @DropDownList(info, "genxml/dropdownlist/imagelogo", "logo_paybox.jpg,CA.jpg", "logo_paybox.jpg,CA.jpg", "class='form-control'")
                         </div>
                     </div>
 
@@ -91,7 +101,7 @@ var info = (NBrightInfo)Model.List.First();
                     <div class="form-group">
                         <label class="col-sm-2 control-label">PBX_RANG&nbsp;(2 digits)</label>
                         <div class="col-sm-3">
-                            @TextBox(info, "genxml/textbox/pbxrang", "class='form-control'", "99")
+                            @TextBox(info, "genxml/textbox/pbxrang", "class='form-control'", "32")
                         </div>
                     </div>
 
@@ -105,7 +115,7 @@ var info = (NBrightInfo)Model.List.First();
                     <div class="form-group">
                         <label class="col-sm-2 control-label">PBX_IDENTIFIANT</label>
                         <div class="col-sm-3">
-                            @TextBox(info, "genxml/textbox/pbxidentifiant", "class='form-control'", "2")
+                            @TextBox(info, "genxml/textbox/pbxidentifiant", "class='form-control'", "107904482")
                         </div>
                     </div>
 
@@ -119,7 +129,7 @@ var info = (NBrightInfo)Model.List.First();
                     <div class="form-group">
                         <label class="col-sm-2 control-label">HMAC Key</label>
                         <div class="col-sm-3">
-                            @TextBox(info, "genxml/textbox/hmackey", "class='form-control'", "")
+                            @TextBox(info, "genxml/textbox/hmackey", "class='form-control'", "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF")
                         </div>
                     </div>
 

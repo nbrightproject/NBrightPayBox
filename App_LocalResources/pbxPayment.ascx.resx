@@ -142,6 +142,9 @@
     <value>Payment by Secure Banking</value>
   </data>
   <data name="savemsg.Text" xml:space="preserve">
-    <value>&lt;div class="alert alert-success"&gt;OK&lt;/div&gt;</value>
+    <value>Update Complete</value>
+  </data>
+  <data name="failmsg.Text" xml:space="preserve">
+    <value>Save Error</value>
   </data>
 </root>

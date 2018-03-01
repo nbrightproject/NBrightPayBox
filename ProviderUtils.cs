@@ -124,31 +124,38 @@ namespace NBrightPayBox.DNN.NBrightStore
 
         public static string SaveData(HttpContext context)
         {
-            var objCtrl = new NBrightBuyController();
-
-            //get uploaded params
-            var ajaxInfo = NBrightBuyUtils.GetAjaxFields(context);
-            var lang = NBrightBuyUtils.SetContextLangauge(ajaxInfo); // Ajax breaks context with DNN, so reset the context language to match the client.
-
-            var itemid = ajaxInfo.GetXmlProperty("genxml/hidden/itemid");
-            if (Utils.IsNumeric(itemid))
+            try
             {
-                var nbi = objCtrl.Get(Convert.ToInt32(itemid));
-                // get data passed back by ajax
-                var strIn = HttpUtility.UrlDecode(Utils.RequestParam(context, "inputxml"));
-                // update record with ajax data
-                nbi.UpdateAjax(strIn);
-                nbi.GUIDKey = nbi.GetXmlProperty("genxml/textbox/code");
-                objCtrl.Update(nbi);
 
-                // do langauge record
-                var nbi2 = objCtrl.GetDataLang(Convert.ToInt32(itemid), lang);
-                nbi2.UpdateAjax(strIn);
-                objCtrl.Update(nbi2);
+                var objCtrl = new NBrightBuyController();
 
-                DataCache.ClearCache(); // clear ALL cache.
+                //get uploaded params
+                var ajaxInfo = NBrightBuyUtils.GetAjaxFields(context);
+                var lang = NBrightBuyUtils.SetContextLangauge(ajaxInfo); // Ajax breaks context with DNN, so reset the context language to match the client.
+
+                var itemid = ajaxInfo.GetXmlProperty("genxml/hidden/itemid");
+                if (Utils.IsNumeric(itemid))
+                {
+                    var nbi = objCtrl.Get(Convert.ToInt32(itemid));
+                    // get data passed back by ajax
+                    var strIn = HttpUtility.UrlDecode(Utils.RequestParam(context, "inputxml"));
+                    // update record with ajax data
+                    nbi.UpdateAjax(strIn);
+                    objCtrl.Update(nbi);
+
+                    // do langauge record
+                    var nbi2 = objCtrl.GetDataLang(Convert.ToInt32(itemid), lang);
+                    nbi2.UpdateAjax(strIn);
+                    objCtrl.Update(nbi2);
+
+                    DataCache.ClearCache(); // clear ALL cache.
+                }
+                return "";
             }
-            return DnnUtils.GetResourceString("", "savemsg");
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
         }
 
 
