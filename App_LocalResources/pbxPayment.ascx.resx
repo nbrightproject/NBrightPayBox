@@ -141,10 +141,4 @@
   <data name="Titlevalue.Text" xml:space="preserve">
     <value>Payment by Secure Banking</value>
   </data>
-  <data name="savemsg.Text" xml:space="preserve">
-    <value>Update Complete</value>
-  </data>
-  <data name="failmsg.Text" xml:space="preserve">
-    <value>Save Error</value>
-  </data>
 </root>

@@ -6,6 +6,7 @@ $(document).ready(function () {
     $('#paybox_cmdSave').unbind("click");
     $('#paybox_cmdSave').click(function () {
         $('.processing').show();
+        $(this).hide();
         nbxget('nbrightpayboxajax_savesettings', '.payboxdata', '.payboxreturnmsg');
     });
 
@@ -17,14 +18,7 @@ $(document).ready(function () {
 
         $('.processing').hide();
 
-        if ($('.payboxreturnmsg').text() != '') {
-            $('.paybox-success').hide();
-            $('.paybox-danger').show();
-        } else {
-            $('.paybox-success').show();
-            $('.paybox-danger').hide();
-        }
-
+        $('#paybox_cmdSave').show();
 
     };
 
