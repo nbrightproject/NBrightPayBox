@@ -43,7 +43,17 @@
 						</file>
 					</files>
 				</component>
-			</components>
+        <component type="File">
+          <files>
+            <basePath>DesktopModules\NBright\NBrightBuy\Plugins</basePath>
+            <file>
+              <path></path>
+              <name>pluginPayBoxAjax.xml</name>
+              <sourceFileName>pluginPayBoxAjax.xml</sourceFileName>
+            </file>
+          </files>
+        </component>        
+      </components>
 		</package>
 	</packages>
 </dotnetnuke>
