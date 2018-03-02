@@ -62,8 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AjaxProvider.cs" />
-    <Compile Include="Hash.cs" />
+    <Compile Include="Components\AjaxProvider.cs" />
+    <Compile Include="Components\Hash.cs" />
     <Compile Include="Payment.ascx.cs">
       <DependentUpon>Payment.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -71,26 +71,28 @@
     <Compile Include="Payment.ascx.designer.cs">
       <DependentUpon>Payment.ascx.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaymentProvider.cs" />
+    <Compile Include="Components\PaymentProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProviderUtils.cs" />
+    <Compile Include="Components\ProviderUtils.cs" />
     <Compile Include="notify.ashx.cs">
       <DependentUpon>notify.ashx</DependentUpon>
     </Compile>
-    <Compile Include="RemotePost.cs" />
+    <Compile Include="Components\RemotePost.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Payment.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="pluginPayBox.xml">
+    <Content Include="Installation\pluginPayBox.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="pluginPayBoxAjax.xml" />
+    <Content Include="Installation\pluginPayBoxAjax.xml" />
+    <Content Include="ReadMe.txt" />
     <Content Include="Themes\config\img\CA.jpg" />
     <Content Include="Themes\config\img\logo_paybox.jpg" />
     <Content Include="Themes\config\js\paybox.js" />
-    <None Include="NBrightBuyPayBox.dnn" />
+    <None Include="Installation\NBrightBuyPayBox_1.1.0_Install.zip" />
+    <None Include="Installation\NBrightBuyPayBox.dnn" />
     <None Include="packages.config" />
     <None Include="Themes\config\default\payment_ok.cshtml" />
     <None Include="Themes\config\default\payment_fail.cshtml" />

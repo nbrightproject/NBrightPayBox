@@ -9,7 +9,7 @@
     <XmlRead Prefix="n"
                     Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
                     XPath="dotnetnuke/packages/package[1]/@version"
-                    XmlFileName="$(DNNFileName).dnn">
+                    XmlFileName="Installation\$(DNNFileName).dnn">
       <Output TaskParameter="Value" PropertyName="Version" />
     </XmlRead>
 
@@ -33,7 +33,7 @@
       
     </ItemGroup>
     
-    <CreateItem Include="$(DNNFileName).dnn">
+    <CreateItem Include="Installation\$(DNNFileName).dnn">
       <Output TaskParameter="Include" ItemName="PackageManifestFiles" />
     </CreateItem>
 
@@ -55,7 +55,7 @@
     <Copy SourceFiles="@(PackageTxtFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Package" />
     <Copy SourceFiles="@(SkinFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Package" />
     
-    <Copy SourceFiles="pluginPayBox.xml;pluginPayBoxAjax.xml" DestinationFolder="$(MSBuildProjectDirectory)\Package"/>
+    <Copy SourceFiles="Installation\pluginPayBox.xml;Installation\pluginPayBoxAjax.xml" DestinationFolder="$(MSBuildProjectDirectory)\Package"/>
     
     <!-- create the INSTALL NBrightBuy_Resource.ZIP file -->
     <Copy SourceFiles="@(InstallInclude)" DestinationFolder="$(MSBuildProjectDirectory)\ResourcesZip\%(RecursiveDir)" />
