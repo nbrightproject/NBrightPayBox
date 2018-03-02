@@ -26,12 +26,19 @@ namespace NBrightPayBox
 
         public override string ProcessCommand(string paramCmd, HttpContext context, string editlang = "")
         {
+            var ajaxInfo = NBrightBuyUtils.GetAjaxFields(context);
+            var lang = NBrightBuyUtils.SetContextLangauge(ajaxInfo); // Ajax breaks context with DNN, so reset the context language to match the client.
+
             var strOut = "PayBox Ajax Error";
             switch (paramCmd)
             {
                 case "nbrightpayboxajax_savesettings":
                     strOut = ProviderUtils.SaveData(context);
                     break;
+                case "nbrightpayboxajax_selectlang":
+                    ProviderUtils.SaveData(context);
+                    strOut = ProviderUtils.GetFieldDisplay(ajaxInfo.GetXmlProperty("genxml/hidden/nextlang"));
+                    break;                                        
             }
 
             return strOut;

@@ -6,8 +6,17 @@ $(document).ready(function () {
     $('#paybox_cmdSave').unbind("click");
     $('#paybox_cmdSave').click(function () {
         $('.processing').show();
-        $(this).hide();
+        $('.actionbuttonwrapper').hide();
         nbxget('nbrightpayboxajax_savesettings', '.payboxdata', '.payboxreturnmsg');
+    });
+
+    $('.selectlang').unbind("click");
+    $(".selectlang").click(function () {
+        $('.editlanguage').hide();
+        $('.actionbuttonwrapper').hide();
+        $('.processing').show();
+        $("#nextlang").val($(this).attr("editlang"));
+        nbxget('nbrightpayboxajax_selectlang', '.payboxdata', '.payboxdata');
     });
 
 
@@ -17,8 +26,12 @@ $(document).ready(function () {
     function NBS_PayBox_nbxgetCompleted(e) {
 
         $('.processing').hide();
+        $('.actionbuttonwrapper').show();
+        $('.editlanguage').show();
 
-        $('#paybox_cmdSave').show();
+        if (e.cmd == 'nbrightpayboxajax_selectlang') {
+                        
+        }
 
     };
 

@@ -83,24 +83,46 @@ namespace NBrightPayBox.DNN.NBrightStore
             return rtnStr;
         }
 
+        public static string GetFieldDisplay(string lang)
+        {
+            var info = GetData(lang);
+            return NBrightBuyUtils.RazorTemplRender("settingsfields.cshtml", 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", lang, StoreSettings.Current.Settings());
+        }
+
         public static NBrightInfo GetData(string lang)
         {
+            DataCache.ClearCache(); // clear ALL cache.
             var objCtrl = new NBrightBuyController();
             var info = objCtrl.GetByGuidKey(PortalSettings.Current.PortalId, -1, "NBrightPayBoxPAYMENT", "NBrightPayBoxpayment");
             if (info == null)
             {
+                // create record if not in DB
                 info = new NBrightInfo(true);
                 info.GUIDKey = "NBrightPayBoxpayment";
                 info.TypeCode = "NBrightPayBoxPAYMENT";
                 info.ModuleId = -1;
                 info.PortalId = PortalSettings.Current.PortalId;
-                var pid = objCtrl.Update(info);
-                info = new NBrightInfo(true);
-                info.GUIDKey = "";
-                info.TypeCode = "NBrightPayBoxPAYMENTLANG";
-                info.ParentItemId = pid;
-                info.Lang = lang;
                 info.ItemID = objCtrl.Update(info);
+            }
+            var nbilang = objCtrl.GetDataLang(info.ItemID, lang);
+            if (nbilang == null)
+            {
+                // create lang records if not in DB
+                foreach (var lg in DnnUtils.GetCultureCodeList(PortalSettings.Current.PortalId))
+                {
+                    nbilang = objCtrl.GetDataLang(info.ItemID, lg);
+                    if (nbilang == null)
+                    {
+                        nbilang = new NBrightInfo(true);
+                        nbilang.GUIDKey = "";
+                        nbilang.TypeCode = "NBrightPayBoxPAYMENTLANG";
+                        nbilang.ParentItemId = info.ItemID;
+                        nbilang.Lang = lg;
+                        nbilang.ModuleId = -1;
+                        nbilang.PortalId = PortalSettings.Current.PortalId;
+                        nbilang.ItemID = objCtrl.Update(nbilang);
+                    }
+                }
             }
 
             // do edit field data if a itemid has been selected
@@ -123,17 +145,19 @@ namespace NBrightPayBox.DNN.NBrightStore
                 if (Utils.IsNumeric(itemid))
                 {
                     var nbi = objCtrl.Get(Convert.ToInt32(itemid));
-                    // get data passed back by ajax
-                    var strIn = HttpUtility.UrlDecode(Utils.RequestParam(context, "inputxml"));
-                    // update record with ajax data
-                    nbi.UpdateAjax(strIn);
-                    objCtrl.Update(nbi);
+                    if (nbi != null)
+                    {
+                        // get data passed back by ajax
+                        var strIn = HttpUtility.UrlDecode(Utils.RequestParam(context, "inputxml"));
+                        // update record with ajax data
+                        nbi.UpdateAjax(strIn);
+                        objCtrl.Update(nbi);
 
-                    // do langauge record
-                    var nbi2 = objCtrl.GetDataLang(Convert.ToInt32(itemid), lang);
-                    nbi2.UpdateAjax(strIn);
-                    objCtrl.Update(nbi2);
-
+                        // do langauge record
+                        var nbi2 = objCtrl.GetDataLang(Convert.ToInt32(itemid), lang);
+                        nbi2.UpdateAjax(strIn);
+                        objCtrl.Update(nbi2);
+                    }
                     DataCache.ClearCache(); // clear ALL cache.
                 }
                 return "";

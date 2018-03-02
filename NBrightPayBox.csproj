@@ -92,7 +92,10 @@
     <Content Include="Themes\config\js\paybox.js" />
     <None Include="NBrightBuyPayBox.dnn" />
     <None Include="packages.config" />
+    <None Include="Themes\config\default\payment_ok.cshtml" />
+    <None Include="Themes\config\default\payment_fail.cshtml" />
     <None Include="Themes\config\default\methodselection.cshtml" />
+    <None Include="Themes\config\default\settingsfields.cshtml" />
     <None Include="Themes\config\default\settings.cshtml" />
   </ItemGroup>
   <ItemGroup>

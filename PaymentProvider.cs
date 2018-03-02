@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Users;
 using NBrightCore.common;
 using NBrightDNN;
 using Nevoweb.DNN.NBrightBuy.Components;
@@ -19,24 +20,17 @@ namespace NBrightPayBox.DNN.NBrightStore
         public override string GetTemplate(NBrightInfo cartInfo)
         {
             var templ = "";
-            var info = ProviderUtils.GetData(cartInfo.Lang);
+            var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
             var templateName = info.GetXmlProperty("genxml/textbox/checkouttemplate");
-            if (templateName.EndsWith(".html"))
+            var passSettings = info.ToDictionary();
+            foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
             {
-                templ = ProviderUtils.GetTemplateData(templateName, info);
+                if (passSettings.ContainsKey(s.Key))
+                    passSettings[s.Key] = s.Value;
+                else
+                    passSettings.Add(s.Key, s.Value);
             }
-            else
-            {
-                var passSettings = info.ToDictionary();
-                foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
-                {
-                    if (passSettings.ContainsKey(s.Key))
-                        passSettings[s.Key] = s.Value;
-                    else
-                        passSettings.Add(s.Key, s.Value);
-                }
-                templ = NBrightBuyUtils.RazorTemplRender(templateName, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
-            }
+            templ = NBrightBuyUtils.RazorTemplRender(templateName, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
 
             return templ;
         }
@@ -80,22 +74,50 @@ namespace NBrightPayBox.DNN.NBrightStore
             var orderid = Utils.RequestQueryStringParam(context, "orderid");
             if (Utils.IsNumeric(orderid))
             {
+                var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
                 var status = Utils.RequestQueryStringParam(context, "status");
                 if (status == "0")
                 {
-                    var rtnerr = ".";
+                    var rtnerr = "";
                     var orderData = new OrderData(Convert.ToInt32(orderid));
                     if (orderData.OrderStatus == "020") // check we have a waiting for bank status, IPN may have already altered this. 
                     {
                         rtnerr = orderData.PurchaseInfo.GetXmlProperty("genxml/paymenterror");
-                        if (rtnerr == "") rtnerr = "."; // to return this so a fail is activated.
                         orderData.PaymentFail();
                     }
-                    return rtnerr;
+                    return GetReturnTemplate(false,rtnerr);
                 }
             }
-            return "";
+            return GetReturnTemplate(true, "");
         }
+
+        private string GetReturnTemplate(bool paymentok,string paymenterror)
+        {
+            var displaytemplate = "payment_ok.cshtml";
+            if (!paymentok)
+            {
+                displaytemplate = "payment_fail.cshtml";
+            }
+            var templ = "";
+            var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
+            var passSettings = info.ToDictionary();
+            foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
+            {
+                if (passSettings.ContainsKey(s.Key))
+                    passSettings[s.Key] = s.Value;
+                else
+                    passSettings.Add(s.Key, s.Value);
+            }
+            if (passSettings.ContainsKey("paymenterror"))
+            {
+                passSettings.Add("paymenterror", paymenterror);
+            }
+            info.UserId = UserController.GetCurrentUserInfo().UserID;
+            templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
+
+            return templ;
+        }
+
 
     }
 }

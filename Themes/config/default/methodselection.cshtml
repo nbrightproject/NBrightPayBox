@@ -1,4 +1,5 @@
 @inherits NBrightBuy.render.NBrightBuyRazorTokens<NBrightDNN.NBrightRazor>
+@using System.Linq
 @using DotNetNuke.Common
 @using DotNetNuke.Entities.Portals
 @using DotNetNuke.Entities.Users
@@ -6,6 +7,12 @@
 @using Nevoweb.DNN.NBrightBuy.Components
 
 @AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightPayBox/App_LocalResources")
+@AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
+
+@{
+    var info = (NBrightInfo)Model.List.First();
+}
+
 
 <style>
     /* Default buttons */
@@ -42,20 +49,19 @@
 
             <input id="paymentproviderkey" type="hidden" value="nbrightpaybox" />
 
-            <h3>@ResourceKey("pbxPayment.Titlevalue")</h3>
+            <h3>@info.GetXmlProperty("genxml/lang/genxml/textbox/title")</h3>
 
             <div>
-                <img src='/DesktopModules/NBright/NBrightPayBox/Themes/config/img/@(Model.GetSetting("imagelogo"))'/>
+                <img src='/DesktopModules/NBright/NBrightPayBox/Themes/config/img/@(info.GetXmlProperty("genxml/dropdownlist/imagelogo"))'/>
             </div>
 
-            <div class="defaultmessage">@ResourceKey("pbxPayment.Messagevalue")</div>
+            <div class="defaultmessage">@info.GetXmlProperty("genxml/lang/genxml/textbox/message")</div>
 
             <div class="clearfix"></div>
 
-            <!-- commandname must be "pay" and the commandargument must be the provider control key -->
             <div id="cartactions" style="">
                 <div style="clear: both;">
-                    <a href="?provider=nbrightpaybox" id="cmdpaybox" class="primarybutton">@ResourceKey("pbxPayment.buttonvalue")</a>
+                    <a href="?provider=nbrightpaybox" id="cmdpaybox" class="primarybutton">@info.GetXmlProperty("genxml/lang/genxml/textbox/buttontext")</a>
                 </div>
             </div>
 

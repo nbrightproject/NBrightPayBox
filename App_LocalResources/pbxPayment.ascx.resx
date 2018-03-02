@@ -141,4 +141,31 @@
   <data name="Titlevalue.Text" xml:space="preserve">
     <value>Payment by Secure Banking</value>
   </data>
+  <data name="checkoutdisplay.Text" xml:space="preserve">
+    <value>Checkout Display</value>
+  </data>
+  <data name="failreturndisplay.Text" xml:space="preserve">
+    <value>Failed Return Display</value>
+  </data>
+  <data name="payboxsettings.Text" xml:space="preserve">
+    <value>PayBox Settings</value>
+  </data>
+  <data name="processoptions.Text" xml:space="preserve">
+    <value>Process Options</value>
+  </data>
+  <data name="returndisplay.Text" xml:space="preserve">
+    <value>Successful Return Display</value>
+  </data>
+  <data name="failrtnmessagevalue.Text" xml:space="preserve">
+    <value>You will be redirected to the banks secure payment system to make your payment.</value>
+  </data>
+  <data name="failrtntitlevalue.Text" xml:space="preserve">
+    <value>Payment by Secure Banking</value>
+  </data>
+  <data name="rtnmessagevalue.Text" xml:space="preserve">
+    <value>You will be redirected to the banks secure payment system to make your payment.</value>
+  </data>
+  <data name="rtntitlevalue.Text" xml:space="preserve">
+    <value>Payment by Secure Banking</value>
+  </data>
 </root>
