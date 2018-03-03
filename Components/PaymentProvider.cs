@@ -75,23 +75,24 @@ namespace NBrightPayBox.DNN.NBrightStore
             var orderid = Utils.RequestQueryStringParam(context, "orderid");
             if (Utils.IsNumeric(orderid))
             {
+                var orderData = new OrderData(Convert.ToInt32(orderid));
                 var status = Utils.RequestQueryStringParam(context, "status");
                 if (status == "0")
                 {
                     var rtnerr = "";
-                    var orderData = new OrderData(Convert.ToInt32(orderid));
                     if (orderData.OrderStatus == "020") // check we have a waiting for bank status, IPN may have already altered this. 
                     {
                         rtnerr = orderData.PurchaseInfo.GetXmlProperty("genxml/paymenterror");
                         orderData.PaymentFail();
                     }
-                    return GetReturnTemplate(false,rtnerr);
+                    return GetReturnTemplate(orderData, false,rtnerr);
                 }
+                return GetReturnTemplate(orderData, true, "");
             }
-            return GetReturnTemplate(true, "");
+            return "";
         }
 
-        private string GetReturnTemplate(bool paymentok,string paymenterror)
+        private string GetReturnTemplate(OrderData orderData, bool paymentok, string paymenterror)
         {
             var displaytemplate = "payment_ok.cshtml";
             if (!paymentok)
@@ -114,6 +115,7 @@ namespace NBrightPayBox.DNN.NBrightStore
                 passSettings.Add("paymenterror", paymenterror);
             }
             info.UserId = UserController.Instance.GetCurrentUserInfo().UserID;
+            info.SetXmlProperty("genxml/ordernumber", orderData.OrderNumber);
             templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
 
             return templ;

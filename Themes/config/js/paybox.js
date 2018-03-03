@@ -1,7 +1,6 @@
 ﻿
 
 $(document).ready(function () {
-    // start load all ajax data, continued by js in product.js file
 
     $('#paybox_cmdSave').unbind("click");
     $('#paybox_cmdSave').click(function () {
