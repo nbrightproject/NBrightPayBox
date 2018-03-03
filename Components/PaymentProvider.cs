@@ -20,7 +20,8 @@ namespace NBrightPayBox.DNN.NBrightStore
         public override string GetTemplate(NBrightInfo cartInfo)
         {
             var templ = "";
-            var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
+            var objCtrl = new NBrightBuyController();
+            var info = objCtrl.GetPluginSinglePageData("NBrightPayBoxpayment", "NBrightPayBoxPAYMENT", Utils.GetCurrentCulture());
             var templateName = info.GetXmlProperty("genxml/textbox/checkouttemplate");
             var passSettings = info.ToDictionary();
             foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
@@ -74,7 +75,6 @@ namespace NBrightPayBox.DNN.NBrightStore
             var orderid = Utils.RequestQueryStringParam(context, "orderid");
             if (Utils.IsNumeric(orderid))
             {
-                var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
                 var status = Utils.RequestQueryStringParam(context, "status");
                 if (status == "0")
                 {
@@ -99,7 +99,8 @@ namespace NBrightPayBox.DNN.NBrightStore
                 displaytemplate = "payment_fail.cshtml";
             }
             var templ = "";
-            var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
+            var objCtrl = new NBrightBuyController();
+            var info = objCtrl.GetPluginSinglePageData("NBrightPayBoxpayment", "NBrightPayBoxPAYMENT", Utils.GetCurrentCulture());
             var passSettings = info.ToDictionary();
             foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
             {
@@ -112,7 +113,7 @@ namespace NBrightPayBox.DNN.NBrightStore
             {
                 passSettings.Add("paymenterror", paymenterror);
             }
-            info.UserId = UserController.GetCurrentUserInfo().UserID;
+            info.UserId = UserController.Instance.GetCurrentUserInfo().UserID;
             templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
 
             return templ;

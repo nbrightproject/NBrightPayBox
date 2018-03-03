@@ -24,7 +24,7 @@ namespace NBrightPayBox.DNN.NBrightStore
         public void ProcessRequest(HttpContext context)
         {
             var modCtrl = new NBrightBuyController();
-            var info = ProviderUtils.GetData(Utils.GetCurrentCulture());
+            var info = modCtrl.GetPluginSinglePageData("NBrightPayBoxpayment", "NBrightPayBoxPAYMENT", Utils.GetCurrentCulture());
 
             try
             {
