@@ -17,6 +17,13 @@ namespace NBrightPayBox.DNN.NBrightStore
 {
     public class ProviderUtils
     {
+        public static NBrightInfo GetProviderSettings()
+        {
+            var objCtrl = new NBrightBuyController();
+            var info = objCtrl.GetPluginSinglePageData("NBrightPayBoxpayment", "NBrightPayBoxPAYMENT", Utils.GetCurrentCulture());
+            return info;
+        }
+
 
         public static String GetBankRemotePost(OrderData orderData)
         {

@@ -4,7 +4,6 @@
 @using NBrightDNN
 @using Nevoweb.DNN.NBrightBuy.Components
 
-
 @AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightPayBox/App_LocalResources")
 @AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
 
@@ -12,6 +11,23 @@
     var info = (NBrightInfo)Model.List.First();
 }
 
+@if (Model.GetSettingBool("carttitle"))
+{
+    <h1>@ResourceKey("CartView.YourBasket")</h1>
+}
+@if (Model.GetSettingBool("cartsteps"))
+{
+    <div class="checkoutsteps">
+        <div class="checkoutstepsheader">@ResourceKey("CartView.CartstepsProcess")</div>
+        <ol>
+            <li class="step1">@ResourceKey("CartView.CartstepsRecap")</li>
+            <li class="step2">@ResourceKey("CartView.CartstepsAddresses")</li>
+            <li class="step3">@ResourceKey("CartView.CartstepsShipping")</li>
+            <li class="step4">@ResourceKey("CartView.CartstepsPayment")</li>
+            <li class="step5 activestep">@ResourceKey("CartView.CartstepsConfirm")</li>
+        </ol>
+    </div>
+}
 
 <div class="nbs paymentfailed">
 
@@ -24,7 +40,7 @@
         @Model.GetSetting("paymenterror")
     </div>
 
-    @if (info.UserId > 0)
+    @if (UserController.Instance.GetCurrentUserInfo().UserID > 0)
     {
         <div class="formrow">
             <a class="primarybutton" href="/tabid/@(Model.GetSetting("ordermanagertab"))">@ResourceKey("CartView.ManageOrders")</a>

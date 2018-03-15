@@ -87,40 +87,41 @@ namespace NBrightPayBox.DNN.NBrightStore
                     }
                     return GetReturnTemplate(orderData, false,rtnerr);
                 }
+                // check we have a waiting for bank status (IPN may have altered status already + help stop hack)
+                if (orderData.OrderStatus == "020")
+                {
+                    orderData.PaymentOk("050"); // order paid, but NOT verified
+                }
                 return GetReturnTemplate(orderData, true, "");
             }
             return "";
         }
 
+
         private string GetReturnTemplate(OrderData orderData, bool paymentok, string paymenterror)
         {
-            var displaytemplate = "payment_ok.cshtml";
-            if (!paymentok)
-            {
-                displaytemplate = "payment_fail.cshtml";
-            }
+            var info = ProviderUtils.GetProviderSettings();
+            info.UserId = UserController.Instance.GetCurrentUserInfo().UserID;
             var templ = "";
-            var objCtrl = new NBrightBuyController();
-            var info = objCtrl.GetPluginSinglePageData("NBrightPayBoxpayment", "NBrightPayBoxPAYMENT", Utils.GetCurrentCulture());
-            var passSettings = info.ToDictionary();
-            foreach (var s in StoreSettings.Current.Settings()) // copy store setting, otherwise we get a byRef assignement
-            {
-                if (passSettings.ContainsKey(s.Key))
-                    passSettings[s.Key] = s.Value;
-                else
-                    passSettings.Add(s.Key, s.Value);
-            }
+            var passSettings = NBrightBuyUtils.GetPassSettings(info);
             if (passSettings.ContainsKey("paymenterror"))
             {
                 passSettings.Add("paymenterror", paymenterror);
             }
-            info.UserId = UserController.Instance.GetCurrentUserInfo().UserID;
-            info.SetXmlProperty("genxml/ordernumber", orderData.OrderNumber);
-            templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
+            var displaytemplate = "payment_ok.cshtml";
+            if (paymentok)
+            {
+                info.SetXmlProperty("genxml/ordernumber", orderData.OrderNumber);
+                templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightSystemPay", "config", Utils.GetCurrentCulture(), passSettings);
+            }
+            else
+            {
+                displaytemplate = "payment_fail.cshtml";
+                templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightSystemPay", "config", Utils.GetCurrentCulture(), passSettings);
+            }
 
             return templ;
         }
-
 
     }
 }
