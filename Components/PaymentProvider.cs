@@ -112,12 +112,12 @@ namespace NBrightPayBox.DNN.NBrightStore
             if (paymentok)
             {
                 info.SetXmlProperty("genxml/ordernumber", orderData.OrderNumber);
-                templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightSystemPay", "config", Utils.GetCurrentCulture(), passSettings);
+                templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
             }
             else
             {
                 displaytemplate = "payment_fail.cshtml";
-                templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightSystemPay", "config", Utils.GetCurrentCulture(), passSettings);
+                templ = NBrightBuyUtils.RazorTemplRender(displaytemplate, 0, "", info, "/DesktopModules/NBright/NBrightPayBox", "config", Utils.GetCurrentCulture(), passSettings);
             }
 
             return templ;
