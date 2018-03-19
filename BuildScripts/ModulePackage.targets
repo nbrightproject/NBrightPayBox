@@ -55,7 +55,7 @@
     <Copy SourceFiles="@(PackageTxtFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Package" />
     <Copy SourceFiles="@(SkinFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Package" />
     
-    <Copy SourceFiles="Installation\pluginPayBox.xml;Installation\pluginPayBoxAjax.xml" DestinationFolder="$(MSBuildProjectDirectory)\Package"/>
+    <Copy SourceFiles="Installation\pluginPayBox.xml" DestinationFolder="$(MSBuildProjectDirectory)\Package"/>
     
     <!-- create the INSTALL NBrightBuy_Resource.ZIP file -->
     <Copy SourceFiles="@(InstallInclude)" DestinationFolder="$(MSBuildProjectDirectory)\ResourcesZip\%(RecursiveDir)" />

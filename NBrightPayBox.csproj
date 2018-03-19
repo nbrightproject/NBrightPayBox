@@ -87,7 +87,6 @@
     <Content Include="Installation\pluginPayBox.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Installation\pluginPayBoxAjax.xml" />
     <Content Include="ReadMe.txt" />
     <Content Include="Themes\config\img\CA.jpg" />
     <Content Include="Themes\config\img\logo_paybox.jpg" />

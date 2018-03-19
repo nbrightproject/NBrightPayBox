@@ -15,7 +15,11 @@
   YOU MAY NOT REDISTRIBUTE, NOT VIEW THE SOURCE CODE, NOT COPY THIS SOFTWARE.  
 			</license>
 			<releaseNotes>v1.1.0</releaseNotes>
-			<components>
+      <dependencies>
+        <dependency type="CoreVersion">08.00.04</dependency>
+        <dependency type="managedPackage" version="4.0.0">NBS_ProductView</dependency>
+      </dependencies>
+      <components>
 				<component type="ResourceFile">
 					<resourceFiles>
 						<basePath>DesktopModules\NBright\NBrightPayBox</basePath>
@@ -43,16 +47,6 @@
 						</file>
 					</files>
 				</component>
-        <component type="File">
-          <files>
-            <basePath>DesktopModules\NBright\NBrightBuy\Plugins</basePath>
-            <file>
-              <path></path>
-              <name>pluginPayBoxAjax.xml</name>
-              <sourceFileName>pluginPayBoxAjax.xml</sourceFileName>
-            </file>
-          </files>
-        </component>        
       </components>
 		</package>
 	</packages>

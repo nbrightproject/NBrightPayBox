@@ -1,53 +1,61 @@
 ﻿<genxml>
-  <files />
   <hidden>
-    <index>99</index>
+    <index datatype="double">99</index>
   </hidden>
   <textbox>
-    <ctrl>
-      <![CDATA[nbrightpaybox]]>
-    </ctrl>
-    <name>
-      <![CDATA[PayBox]]>
-    </name>
-    <icon>
-      <![CDATA[]]>
-    </icon>
-    <group>
-      <![CDATA[Admin]]>
-    </group>
-    <path>
-      <![CDATA[/DesktopModules/NBright/NBrightPayBox/Payment.ascx]]>
-    </path>
-    <help>
-      <![CDATA[]]>
-    </help>
-    <roles>
-      <![CDATA[Administrators]]>
-    </roles>
-    <description>
-      <![CDATA[]]>
-    </description>
-    <assembly>
-      <![CDATA[NBrightPayBox]]>
-    </assembly>
-    <namespaceclass>
-      <![CDATA[NBrightPayBox.DNN.NBrightStore.NBrightPayBoxPaymentProvider]]>
-    </namespaceclass>
+    <ctrl update="save">nbrightpaybox</ctrl>
+    <name update="save">PayBox</name>
+    <icon update="save" />
+    <group update="save">Admin</group>
+    <path update="save">/DesktopModules/NBright/NBrightPayBox/Payment.ascx</path>
+    <help update="save" />
+    <description update="save" />
   </textbox>
   <checkbox>
-    <hidden>
-      <![CDATA[False]]>
-    </hidden>
-    <active>
-      <![CDATA[True]]>
-    </active>
+    <hidden update="save">False</hidden>
   </checkbox>
-  <dropdownlist>
-    <providertype selectedtext="Payments">
-      <![CDATA[07]]>
-    </providertype>
-  </dropdownlist>
-  <checkboxlist />
+  <dropdownlist />
+  <checkboxlist>
+    <securityroles update="save">
+      <chk value="True" data="Administrators">Administrators</chk>
+      <chk value="False" data="Manager">Manager</chk>
+      <chk value="False" data="Editor">Editor</chk>
+      <chk value="False" data="ClientEditor">ClientEditor</chk>
+    </securityroles>
+  </checkboxlist>
   <radiobuttonlist />
+  <interfaces>
+    <genxml>
+      <files />
+      <hidden />
+      <textbox>
+        <assembly>NBrightPayBox</assembly>
+        <namespaceclass>NBrightPayBox.DNN.NBrightStore.NBrightPayBoxPaymentProvider</namespaceclass>
+      </textbox>
+      <checkbox>
+        <active>True</active>
+      </checkbox>
+      <dropdownlist>
+        <providertype>07</providertype>
+      </dropdownlist>
+      <checkboxlist />
+      <radiobuttonlist />
+    </genxml>
+    <genxml>
+      <files />
+      <hidden />
+      <textbox>
+        <assembly>NBrightPayBox</assembly>
+        <namespaceclass>NBrightPayBox.AjaxProvider</namespaceclass>
+      </textbox>
+      <checkbox>
+        <active>True</active>
+      </checkbox>
+      <dropdownlist>
+        <providertype>12</providertype>
+      </dropdownlist>
+      <checkboxlist />
+      <radiobuttonlist />
+    </genxml>
+  </interfaces>
 </genxml>
